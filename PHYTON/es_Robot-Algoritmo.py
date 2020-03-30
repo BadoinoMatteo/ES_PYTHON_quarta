@@ -1,7 +1,29 @@
 def main():
+    usati=[]
     piastrelle = dimPavimento()
     mat = formazionePavimento(piastrelle)
-    dict = costruiscoMatrice(piastrelle, mat)
+    matAlgoritmo=preparaMatriceAlgoritmo(mat)
+    source= int (input("inserisci nodo partenza"))
+    dest=int (input("inserisci nodo arrivo"))
+    usati=algoritmoDijkstra(matAlgoritmo, source, dest)
+    print(usati)
+
+def algoritmoDijkstra(matrice, source, dest):
+    usati=[]
+    dist = [1 for _ in range(source, dest)]
+    dist[0] = 0
+    succ=[b for b in range(source, dest)]
+    while len(succ)!=0:
+        nodoMin = min(dist)
+        nodo = succ.pop(dist.index(nodoMin))
+        dist.remove(nodoMin)
+        usati.append(nodo)
+        for vicini in matrice[nodo]:
+            if vicini >0 and matrice[nodo].index(vicini) in succ:
+                if vicini + nodoMin < dist[succ.index((matrice[nodo].index(vicini)))]:
+                    dist[succ.index((matrice[nodo].index(vicini)))]=vicini+nodoMin
+            matrice[nodo][matrice[nodo].index(vicini)] =0
+    return usati
 
 def dimPavimento():
     nodo = int(input("inserisci la dimensione del pavimento"))
@@ -31,9 +53,6 @@ def creaNodi(pav):
                 pav[r][c] = nNodi
                 nNodi += 1
 
-
-
-
 def costruiscoMatrice (piastrelle , matBool):
     dict = {}
     numNodi = 1
@@ -58,6 +77,14 @@ def costruiscoMatrice (piastrelle , matBool):
             numNodi += 1
     print(dict)
     return dict
+
+def preparaMatriceAlgoritmo(mat):
+    for a in range(0,len(mat)):
+        for b in range(0 , len(mat)):
+            if mat[a][b] == False:
+                mat[a][b]=0
+    print(mat)
+    return mat
 
 if __name__ == '__main__':
     main()

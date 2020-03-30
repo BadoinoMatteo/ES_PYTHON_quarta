@@ -17,7 +17,7 @@ def usertomat(numNodi):
         colonna = [0 for dim in range(0, numNodi)]
         for j in vicinanze:
             if j != i:
-                colonna[j - 1] = float(input(f"Inserire il peso tra il nodo {i} e il nodo {j}"))
+                colonna[j - 1] = int(input(f"Inserire il peso tra il nodo {i} e il nodo {j}"))
         grafo.append(colonna)
     print(grafo)
     return grafo

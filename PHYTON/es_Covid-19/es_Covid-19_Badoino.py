@@ -3,11 +3,9 @@ def dict():
     data = open('data.txt', 'r')
     lines = (data.readlines())
     for line in lines:
-        riga=line.split(" ")
-        chiave=riga.pop(0)
-        contagiati=[]
-        for i in riga:
-            contagiati=riga
+        riga=line.split(' ')
+        chiave=int(riga.pop(0))
+        contagiati=[int(n) for n in riga]
         dict[chiave]=contagiati
     data.close()
     print(dict)
@@ -20,13 +18,30 @@ def dicttomat(dict):
     print(mat)
     return mat
 
-def pazienteZero(mat):
-    pazientiZero=[]
-    for e in len(mat):
-        for i in len(mat):
-            if mat[e][i+1]>0 :
-                pazientiZero.append(mat[e][i])
-    print(pazientiZero)
+
+def Elimina(lista):
+    for i in lista:
+        if lista.count(i) > 1:
+            lista.remove(i)
+            Elimina(lista)
+    return lista
+
+
+def trovaPazienteZero(dict):
+    listaPazientiZero = []
+    for p in range(0, len(dict)):
+        listaPazientiZero.append(trova(p, dict))
+    return Elimina(listaPazientiZero)
+
+
+
+def trova(find, dict):
+    tro = False
+    for key, val in dict.items():
+        if find in val:
+            tro = True
+            return trova(key, dict)
+    if tro == False: return find
 
 
 
@@ -34,7 +49,7 @@ def pazienteZero(mat):
 def main():
     d=dict()
     mat=dicttomat(d)
-    pazienteZero(mat)
+    print(trovaPazienteZero(d))
 
 
 if __name__=='__main__':
