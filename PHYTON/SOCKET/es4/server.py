@@ -15,20 +15,15 @@ while True:
     dict[addres]=(turtle.Turtle())
     stringa=ricevuto.decode().split('_')
     if(addres in dict):
-        while True:
-            variabile = (int)(stringa[1])
-            if (listaComandi[0] == stringa[0]):
-                dict[addres].forward(variabile)
-                break
-            if (listaComandi[1] == stringa[0]):
-                dict[addres].backward(variabile)
-                break
-            if (listaComandi[2] == stringa[0]):
-                dict[addres].left(variabile)
-                break
-            if (listaComandi[3] == stringa[0]):
-                dict[addres].right(variabile)
-                break
+        variabile = (int)(stringa[1])
+        if (listaComandi[0] == stringa[0]):
+            dict[addres].forward(variabile)
+        elif (listaComandi[1] == stringa[0]):
+            dict[addres].backward(variabile)
+        elif (listaComandi[2] == stringa[0]):
+            dict[addres].left(variabile)
+        elif (listaComandi[3] == stringa[0]):
+            dict[addres].right(variabile)
     else:
         print("non presente")
     print("comando eseguito")
