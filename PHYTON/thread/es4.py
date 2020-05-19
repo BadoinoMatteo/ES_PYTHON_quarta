@@ -2,11 +2,14 @@ import threading
 import logging
 import random
 
+totalebiglietti=100
 
-def cassa():
-    totalebiglietti=100
+def cassa(tID):
+    s1.acquire()
+    print("cassa 1")
     numeroBiglietti=[0,1,2,3,4,5,6,7,8,9,10]
-    biglietti=(int)(1+ random.choice(numeroBiglietti))
+    biglietti=(int)(random.choice(numeroBiglietti))
+    global totalebiglietti
     print(totalebiglietti)
     if totalebiglietti==0:     #biglietti esauriti
         print("biglietti esauriti")
@@ -14,26 +17,24 @@ def cassa():
          print(f"biglietti acquistati {biglietti}" )
          totalebiglietti=totalebiglietti-biglietti
     elif 0 < totalebiglietti < biglietti:
-         print("biglietti acquistati = " + totalebiglietti)
+         print(f"biglietti acquistati {totalebiglietti}")
          totalebiglietti=0
 
-    s.release()
+    s1.release()
+
 
 if __name__ == '__main__':
     format = "%(asctime)s: %(message)s"
     logging.basicConfig(format=format, level=logging.INFO, datefmt="%H:%M:%S")
-    t=[]
+    t = []
 
-    for _ in range(1,10):
-        t.append(threading.Thread(format=cassa()))
+    s1 = threading.Lock()
 
-    s = threading.Lock()
-    s.acquire()
-    
-    print("inizio")
-    for i in range(0, 9):
+    for i in range(10):
+        t.append(threading.Thread(target=cassa, args=(int(i+1), )))
         t[i].start()
 
 
-    for i in range(0,9):
-        t[i].join()
+
+    for i,t in enumerate(t):
+        t.join()
